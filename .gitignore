@@ -1,0 +1,41 @@
+# Ignore node_modules in Backend
+/Backend/node_modules/
+
+# Ignore build files in Backend
+/Backend/dist/
+/Backend/build/
+
+# Ignore TypeScript build files
+/Backend/*.js
+/Backend/*.js.map
+
+# Ignore environment files
+/.env
+
+# Ignore Frontend Flutter build files
+/Frontend/build/
+/Frontend/.dart_tool/
+/Frontend/.packages
+/Frontend/pubspec.lock
+
+# Ignore IDE and editor files
+/.idea/
+/.vscode/
+/*.sublime-workspace
+/*.sublime-project
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore other common files
+*.swp
