@@ -1,5 +1,4 @@
 import express from "express";
-import { json } from "body-parser";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes";
 import connectDB from "./models/db";
@@ -8,7 +7,7 @@ dotenv.config();
 connectDB();
 
 const server = express();
-server.use(json());
+server.use(express.json());
 
 server.use("/auth", authRoutes);
 // server.get("/", (req: Request, res: Response) => {
