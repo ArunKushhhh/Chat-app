@@ -1,7 +1,7 @@
-import 'package:chat_app/core/chat_page.dart';
-import 'package:chat_app/core/login_page.dart';
-import 'package:chat_app/core/messages_page.dart';
-import 'package:chat_app/core/register_page.dart';
+// import 'package:chat_app/core/chat_page.dart';
+import 'package:chat_app/features/auth/presentation/pages/login_page.dart';
+// import 'package:chat_app/core/messages_page.dart';
+// import 'package:chat_app/features/auth/presentation/pages/register_page.dart';
 import 'package:chat_app/core/theme.dart';
 import 'package:flutter/material.dart';
 
