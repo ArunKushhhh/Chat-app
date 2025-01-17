@@ -1,7 +1,11 @@
+import 'package:chat_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:chat_app/features/auth/presentation/bloc/auth_event.dart';
+import 'package:chat_app/features/auth/presentation/bloc/auth_state.dart';
 import 'package:chat_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:chat_app/features/auth/presentation/widgets/auth_input_field.dart';
 import 'package:chat_app/features/auth/presentation/widgets/login_prompt.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,6 +25,15 @@ class _RegisterPageState extends State<RegisterPage> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _onRegister() {
+    BlocProvider.of<AuthBloc>(context).add(
+      RegisterEvent(
+          username: _usernameController.text,
+          email: _emailController.text,
+          password: _passwordController.text),
+    );
   }
 
   @override
@@ -54,7 +67,27 @@ class _RegisterPageState extends State<RegisterPage> {
                 isPassword: true,
               ),
               const SizedBox(height: 20),
-              AuthButton(onPressed: () {}, text: 'Register'),
+              BlocConsumer<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  if (state is AuthLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return AuthButton(
+                    onPressed: _onRegister,
+                    text: 'Register',
+                  );
+                },
+                listener: (context, state) {
+                  if (state is AuthSuccess) {
+                    Navigator.pushNamed(context, '/login');
+                  } else if (state is AuthFailure) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(state.error)));
+                  }
+                },
+              ),
               const SizedBox(height: 10),
               LoginPrompt(
                   onTap: () {},

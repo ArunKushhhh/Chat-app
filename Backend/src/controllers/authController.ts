@@ -9,35 +9,39 @@ dotenv.config();
 const saltRounds = 10;
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
-  //get username, email, password
+  // get username, email, password
   const { username, email, password } = req.body;
 
-  //before creating a user, check several validations
-  //ensure that all the input fields are filled by the user
+  // ensure that all the input fields are filled by the user
   if (!username || !email || !password) {
+    res.status(400);
     throw new Error("Please fill all the input fields");
   }
-  //check if the user already exists
-  const userExists = await User.findOne({ email });
-  if (userExists) res.status(400).send("User already exists");
 
-  //hash the user password
+  // check if the user already exists
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+
+  // hash the user password
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   const newUser = new User({ username, email, password: hashedPassword });
 
-  //insert data into db
-  try {
-    await newUser.save();
-    generateToken(res, newUser._id.toString());
-
+  // insert data into db
+  const savedUser = await newUser.save();
+  
+  if (savedUser) {
+    generateToken(res, savedUser._id.toString());
+    
     res.status(201).json({
-      _id: newUser._id,
-      username: newUser.username,
-      email: newUser.email,
+      _id: savedUser._id,
+      username: savedUser.username,
+      email: savedUser.email,
       message: "User registered successfully"
     });
-  } catch (error) {
-    console.error("Error saving user:", error);
+  } else {
     res.status(400);
     throw new Error("Invalid user data");
   }
