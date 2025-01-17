@@ -8,6 +8,7 @@
 # Ignore TypeScript build files
 /Backend/*.js
 /Backend/*.js.map
+/Backend/.env
 
 # Ignore environment files
 /.env
