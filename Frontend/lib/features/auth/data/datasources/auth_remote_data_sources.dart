@@ -6,8 +6,10 @@ import 'package:http/http.dart' as http;
 class AuthRemoteDataSources {
   final String baseUrl = 'http://localhost:3000/auth';
 
-  Future<UserModel> login(
-      {required String email, required String password}) async {
+  Future<UserModel> login({
+    required String email,
+    required String password,
+  }) async {
     final response = await http.post(Uri.parse('$baseUrl/login'),
         body: jsonEncode({
           'email': email,
@@ -30,6 +32,6 @@ class AuthRemoteDataSources {
         }),
         headers: {'Content-Type': 'application/json'});
 
-    return UserModel.fromJson(jsonDecode(response.body));
+    return UserModel.fromJson(jsonDecode(response.body)['user']);
   }
 }
